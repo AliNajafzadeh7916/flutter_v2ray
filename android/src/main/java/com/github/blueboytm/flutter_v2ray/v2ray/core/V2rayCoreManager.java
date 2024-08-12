@@ -53,7 +53,7 @@ public final class V2rayCoreManager {
     }
 
     private void makeDurationTimer(final Context context, final boolean enable_traffic_statics) {
-        countDownTimer = new CountDownTimer(7200, 1000) {
+        countDownTimer = new CountDownTimer(10000, 1000) {
             @RequiresApi(api = Build.VERSION_CODES.M)
             public void onTick(long millisUntilFinished) {
                 seconds++;
@@ -237,15 +237,6 @@ public final class V2rayCoreManager {
             countDownTimer.cancel();
         }
     }
-//
-//    private fun getNotificationManager(): NotificationManager? {
-//        if (mNotificationManager == null) {
-//            val service = serviceControl?.get()?.getService() ?: return null
-//            mNotificationManager =
-//                    service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        }
-//        return mNotificationManager
-//    }
 
     private NotificationManager getNotificationManager() {
         if (mNotificationManager == null) {
@@ -281,6 +272,7 @@ public final class V2rayCoreManager {
         if (v2rayServicesListener == null) {
             return;
         }
+
         Intent launchIntent = v2rayServicesListener.getService().getPackageManager().
                 getLaunchIntentForPackage(v2rayServicesListener.getService().getApplicationInfo().packageName);
         launchIntent.setAction("FROM_DISCONNECT_BTN");
@@ -295,8 +287,8 @@ public final class V2rayCoreManager {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(v2rayServicesListener.getService(), notificationChannelID);
         mBuilder.setSmallIcon(v2rayConfig.APPLICATION_ICON)
-                .setContentTitle(v2rayConfig.REMARK)
-                .setContentText("tap to open application")
+                .setContentTitle("VPN is Connected")
+                .setContentText("connection to the best server is running")
                 .setContentIntent(notificationContentPendingIntent);
         v2rayServicesListener.getService().startForeground(1, mBuilder.build());
     }
