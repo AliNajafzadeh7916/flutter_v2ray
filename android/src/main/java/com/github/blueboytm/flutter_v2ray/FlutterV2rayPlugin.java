@@ -73,7 +73,7 @@ public class FlutterV2rayPlugin implements FlutterPlugin, ActivityAware {
                 case "getServerDelay":
                     executor.submit(() -> {
                         try {
-                            result.success(V2rayController.getV2rayServerDelay(call.argument("config")));
+                            result.success(V2rayController.getV2rayServerDelay(call.argument("config"), call.argument("url")));
                         } catch (Exception e) {
                             result.success(-1);
                         }
@@ -82,6 +82,7 @@ public class FlutterV2rayPlugin implements FlutterPlugin, ActivityAware {
                 case "getConnectedServerDelay":
                     executor.submit(() -> {
                         try {
+                            AppConfigs.DELAY_URL = call.argument("url");
                             result.success(V2rayController.getConnectedV2rayServerDelay(binding.getApplicationContext()));
                         } catch (Exception e) {
                             result.success(-1);
@@ -125,10 +126,10 @@ public class FlutterV2rayPlugin implements FlutterPlugin, ActivityAware {
                 try {
                     ArrayList<String> list = new ArrayList<>();
                     list.add(intent.getExtras().getString("DURATION"));
-                    list.add(intent.getExtras().getString("UPLOAD_SPEED"));
-                    list.add(intent.getExtras().getString("DOWNLOAD_SPEED"));
-                    list.add(intent.getExtras().getString("UPLOAD_TRAFFIC"));
-                    list.add(intent.getExtras().getString("DOWNLOAD_TRAFFIC"));
+                    list.add(String.valueOf(intent.getLongExtra("UPLOAD_SPEED", 0)));
+                    list.add(String.valueOf(intent.getLongExtra("DOWNLOAD_SPEED", 0)));
+                    list.add(String.valueOf(intent.getLongExtra("UPLOAD_TRAFFIC", 0)));
+                    list.add(String.valueOf(intent.getLongExtra("DOWNLOAD_TRAFFIC", 0)));
                     list.add(intent.getExtras().getSerializable("STATE").toString().substring(6));
                     vpnStatusSink.success(list);
                 } catch (Exception ignored) {}
@@ -157,10 +158,10 @@ public class FlutterV2rayPlugin implements FlutterPlugin, ActivityAware {
                 try {
                     ArrayList<String> list = new ArrayList<>();
                     list.add(intent.getExtras().getString("DURATION"));
-                    list.add(intent.getExtras().getString("UPLOAD_SPEED"));
-                    list.add(intent.getExtras().getString("DOWNLOAD_SPEED"));
-                    list.add(intent.getExtras().getString("UPLOAD_TRAFFIC"));
-                    list.add(intent.getExtras().getString("DOWNLOAD_TRAFFIC"));
+                    list.add(String.valueOf(intent.getLongExtra("UPLOAD_SPEED", 0)));
+                    list.add(String.valueOf(intent.getLongExtra("DOWNLOAD_SPEED", 0)));
+                    list.add(String.valueOf(intent.getLongExtra("UPLOAD_TRAFFIC", 0)));
+                    list.add(String.valueOf(intent.getLongExtra("DOWNLOAD_TRAFFIC", 0)));
                     list.add(intent.getExtras().getSerializable("STATE").toString().substring(6));
                     vpnStatusSink.success(list);
                 } 

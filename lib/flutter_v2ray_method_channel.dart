@@ -19,10 +19,10 @@ class MethodChannelFlutterV2ray extends FlutterV2rayPlatform {
       if (event != null) {
         onStatusChanged.call(V2RayStatus(
           duration: event[0],
-          uploadSpeed: event[1],
-          downloadSpeed: event[2],
-          upload: event[3],
-          download: event[4],
+          uploadSpeed: int.parse(event[1]),
+          downloadSpeed: int.parse(event[2]),
+          upload: int.parse(event[3]),
+          download: int.parse(event[4]),
           state: event[5],
         ));
       }
@@ -55,15 +55,18 @@ class MethodChannelFlutterV2ray extends FlutterV2rayPlatform {
   }
 
   @override
-  Future<int> getServerDelay({required String config}) async {
+  Future<int> getServerDelay(
+      {required String config, required String url}) async {
     return await methodChannel.invokeMethod('getServerDelay', {
       "config": config,
+      "url": url,
     });
   }
 
   @override
-  Future<int> getConnectedServerDelay() async {
-    return await methodChannel.invokeMethod('getConnectedServerDelay');
+  Future<int> getConnectedServerDelay(String url) async {
+    return await methodChannel
+        .invokeMethod('getConnectedServerDelay', {"url", url});
   }
 
   @override
